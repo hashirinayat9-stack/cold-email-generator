@@ -11,7 +11,7 @@ from langchain_core.output_parsers import StrOutputParser
 @st.cache_resource
 def initialize_rag():
     embeddings = HuggingFaceEmbeddings(model_name="BAAI/bge-m3")
-    drive_db_path = "/content/drive/MyDrive/resume_portfolio"
+    drive_db_path = "resume_portfolio"
     resume_db = Chroma(persist_directory=drive_db_path, embedding_function=embeddings)
     return resume_db.as_retriever()
 
