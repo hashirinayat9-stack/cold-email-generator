@@ -50,11 +50,16 @@ with st.form("cold_email_form"):
     job_description_text = st.text_area("Paste Job Description:", height=300)
     submitted = st.form_submit_button("Generate Email")
 
-if submitted and job_description_text:
-    with st.spinner('Thinking...'):
-        try:
-            out = chain.invoke(job_description_text)
-            st.subheader("Generated Email")
-            st.code(out, language='text')
-        except Exception as e:
-            st.error(f"Error: {e}")
+if submitted:
+    # Check if the text area is empty or just contains whitespace
+    if not job_description_text.strip():
+        st.warning("Please paste a job description before generating.")
+    else:
+        with st.spinner('Generating your email...'):
+            try:
+                out = chain.invoke(job_description_text)
+                st.subheader("Generated Email")
+                st.code(out, language='markdown') # Changed to markdown for better readability
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+
